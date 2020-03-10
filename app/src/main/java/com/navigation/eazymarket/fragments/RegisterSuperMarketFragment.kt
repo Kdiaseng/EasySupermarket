@@ -1,6 +1,7 @@
 package com.navigation.eazymarket.fragments
 
 import android.content.Context
+import android.os.AsyncTask
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -59,10 +60,25 @@ class RegisterSuperMarketFragment : Fragment() {
                 return@setOnClickListener
             }
             val supermarket = Supermarket(name, description)
-            AppDatabase(activity!!).supermarketDao().add(supermarket)
-            Navigation.findNavController(it).navigate(R.id.action_registerSuperMarketFragment_to_supermarketFragment2)
-            Toast.makeText(it.context, getString(R.string.SUCCESS_CREATE_SUPERMARKET),Toast.LENGTH_SHORT).show()
+            saveSupermarket(supermarket,it)
         }
+    }
+
+    private fun saveSupermarket(supermarket: Supermarket, view: View){
+        class SaveSupermarket: AsyncTask<Void, Void, Void>(){
+            override fun doInBackground(vararg params: Void?): Void? {
+                AppDatabase(activity!!).supermarketDao().add(supermarket)
+                return null
+            }
+
+            override fun onPostExecute(result: Void?) {
+                super.onPostExecute(result)
+                Toast.makeText(activity, getString(R.string.SUCCESS_CREATE_SUPERMARKET),Toast.LENGTH_SHORT).show()
+                Navigation.findNavController(view).navigate(R.id.action_registerSuperMarketFragment_to_supermarketFragment2)
+            }
+        }
+
+            SaveSupermarket().execute()
     }
 
 }

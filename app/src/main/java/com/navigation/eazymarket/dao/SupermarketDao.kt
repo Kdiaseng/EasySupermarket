@@ -1,8 +1,6 @@
 package com.navigation.eazymarket.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.navigation.eazymarket.domain.Supermarket
 
 @Dao
@@ -12,4 +10,10 @@ interface SupermarketDao {
 
     @Insert
     fun add(vararg supermarket: Supermarket)
+
+    @Update
+    fun updateSupermarket(supermarket: Supermarket)
+
+    @Delete
+    fun delete(supermarket: Supermarket)
 }
