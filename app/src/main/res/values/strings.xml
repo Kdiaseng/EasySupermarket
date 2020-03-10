@@ -13,4 +13,7 @@
     <string name="product_code">Código</string>
     <string name="produtost">produtos</string>
     <string name="produtos">produtos</string>
+    <string name="SUCCESS_CREATE_SUPERMARKET">Supermercado cadastrado com sucesso!</string>
+    <string name="NAME_REQUIRED">nome é requerido</string>
+    <string name="DESCRIPTION_REQUIRED">Decrição requerida</string>
 </resources>

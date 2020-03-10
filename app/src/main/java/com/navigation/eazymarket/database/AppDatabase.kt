@@ -26,6 +26,7 @@ abstract class AppDatabase : RoomDatabase(){
             context.applicationContext,
             AppDatabase:: class.java,
             "easy-supermarket-database"
-        ).build()
+        ).allowMainThreadQueries()
+            .build()
     }
 }

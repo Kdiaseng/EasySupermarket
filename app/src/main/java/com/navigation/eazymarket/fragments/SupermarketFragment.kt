@@ -32,31 +32,24 @@ class SupermarketFragment : Fragment() {
             Navigation.findNavController(it).navigate(R.id.action_supermarketFragment_to_registerSuperMarketFragment)
         }
 
-        val recyclerViewMaktet = view.rclistSuperMarket
-        recyclerViewMaktet.adapter = SupermarketAdapter(genereteListSuperMarket(), this.requireContext())
-        val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
-        recyclerViewMaktet.layoutManager = layoutManager
+
 
         return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-       // AppDatabase(activity!!).supermarketDao().all()
+
+        val recyclerViewMarket = rclistSuperMarket
+        recyclerViewMarket.adapter = SupermarketAdapter(genereteListSuperMarket(), this.requireContext())
+        val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
+        recyclerViewMarket.layoutManager = layoutManager
+
 
     }
 
     private fun genereteListSuperMarket(): List<SuperMarketDTO> {
-            return listOf(
-                SuperMarketDTO("DB Supermercados", "AV.TORQUATO"),
-                SuperMarketDTO("Atacadão", "AV.ALTAZ MIRIM"),
-                SuperMarketDTO("BARATÃO DA CARNE", "AV.TORQUATO"),
-                SuperMarketDTO("NOVA ERA", "AV.TORQUATO"),
-                SuperMarketDTO("AÇAI ATACADISTA", "AV.TORQUATO"),
-                SuperMarketDTO("SUPERMERCADOS RODRIGUES", "AV.TORQUATO"),
-                SuperMarketDTO("PARQUE GURMET", "AV.TORQUATO")
-
-                )
+        return SuperMarketDTO.converListEntityToListDto(AppDatabase(activity!!).supermarketDao().all())
     }
 
 
