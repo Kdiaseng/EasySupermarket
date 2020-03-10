@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_navigation"
+    app:startDestination="@id/supermarketsFragment">
+    <fragment
+        android:id="@+id/supermarketsFragment"
+        android:name="com.navigation.eazymarket.fragments.SupermarketFragment"
+        android:label="Supermercados Cadastrados"
+        tools:layout="@layout/fragment_supermarket">
+        <action
+            android:id="@+id/action_supermarketFragment_to_registerSuperMarketFragment"
+            app:destination="@id/registerSuperMarketFragment" />
+        <action
+            android:id="@+id/action_supermarketFragment_to_readQrCodeFragment"
+            app:destination="@id/readQrCodeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerSuperMarketFragment"
+        android:name="com.navigation.eazymarket.fragments.RegisterSuperMarketFragment"
+        android:label="Cadastro"
+        tools:layout="@layout/fragment_register_super_market">
+        <action
+            android:id="@+id/action_registerSuperMarketFragment_to_supermarketFragment2"
+            app:destination="@id/supermarketsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/readQrCodeFragment"
+        android:name="com.navigation.eazymarket.fragments.ReadQrCodeFragment"
+        android:label="Leitor"
+        tools:layout="@layout/fragment_read_qr_code">
+        <action
+            android:id="@+id/action_readQrCodeFragment_to_productListFragment"
+            app:destination="@id/productosFragment" />
+        <action
+            android:id="@+id/action_readQrCodeFragment_to_registerProductFragment"
+            app:destination="@id/registerProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerProductFragment"
+        android:name="com.navigation.eazymarket.fragments.RegisterProductFragment"
+        android:label="Cadastro de produtos"
+        tools:layout="@layout/fragment_register_product">
+        <action
+            android:id="@+id/action_registerProductFragment_to_readQrCodeFragment"
+            app:destination="@id/readQrCodeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productosFragment"
+        android:name="com.navigation.eazymarket.fragments.ProductListFragment"
+        android:label="Meus produtos"
+        tools:layout="@layout/fragment_product_list" />
+</navigation>

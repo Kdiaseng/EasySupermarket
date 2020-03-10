@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">EazyMarket</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="supermercados">Supermercados</string>
+    <string name="nome_estabelecimento">Estabelecimento</string>
+    <string name="description">Descrição</string>
+    <string name="register">Cadastrar</string>
+    <string name="product_name">Produto</string>
+    <string name="product_description">Descrição</string>
+    <string name="product_unit_value">Valor unitário</string>
+    <string name="product_code">Código</string>
+    <string name="produtost">produtos</string>
+    <string name="produtos">produtos</string>
+</resources>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.RegisterSuperMarketFragment">
+
+ <LinearLayout
+     android:orientation="vertical"
+     android:padding="30dp"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent">
+
+     <com.google.android.material.textfield.TextInputLayout
+         android:id="@+id/TextInputEditText_Name"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+         android:hint="@string/nome_estabelecimento"
+         app:errorEnabled="true">
+
+         <com.google.android.material.textfield.TextInputEditText
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"/>
+
+     </com.google.android.material.textfield.TextInputLayout>
+
+     <com.google.android.material.textfield.TextInputLayout
+         android:id="@+id/TextInputEditText_Description"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+         android:hint="@string/description"
+         app:errorEnabled="true">
+
+         <com.google.android.material.textfield.TextInputEditText
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"/>
+
+     </com.google.android.material.textfield.TextInputLayout>
+
+     <Button
+         android:id="@+id/btnCreateSupermarket"
+         android:layout_width="match_parent"
+         android:layout_height="75dp"
+         android:text="@string/register" />
+
+
+ </LinearLayout>
+
+</FrameLayout>
