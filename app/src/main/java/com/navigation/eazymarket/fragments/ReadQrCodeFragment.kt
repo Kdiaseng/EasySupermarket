@@ -18,9 +18,7 @@ import com.navigation.eazymarket.R
 import kotlinx.android.synthetic.main.fragment_read_qr_code.*
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 
-/**
- * A simple [Fragment] subclass.
- */
+
 class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler  {
 
     override fun onCreateView(
@@ -30,6 +28,14 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler  {
         val view: View = inflater.inflate(R.layout.fragment_read_qr_code, container, false)
 
         //request permistion
+
+
+        return view
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
         Dexter.withActivity(activity)
             .withPermission(Manifest.permission.CAMERA)
             .withListener(object : PermissionListener {
@@ -52,17 +58,28 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler  {
                 ) {
                 }
             }).check()
+    }
+    override fun handleResult(rawResult: Result?) {
+      rawResult?.let {
+          txt_result.text = rawResult.text
+      }
+        qrCodeScanner.startCamera();
 
-        return view
     }
 
-    override fun handleResult(rawResult: Result?) {
+    override fun onResume() {
+        super.onResume()
+        qrCodeScanner.startCamera()
+    }
 
+    override fun onStop() {
+        super.onStop()
+        qrCodeScanner.stopCamera()
     }
 
     override fun onDestroy() {
-        qrCodeScanner.startCamera()
         super.onDestroy()
+      //  qrCodeScanner.stopCamera()
     }
 
 }

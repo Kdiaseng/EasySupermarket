@@ -36,7 +36,7 @@ class SupermarketAdapter (
             }
 
             itemView.setOnClickListener {
-                action.onItemSupermarketClick(supermarket, position)
+                action.onItemSupermarketClick(supermarket, position, it)
             }
 
             val iconRemove = itemView.imageRemove
@@ -67,7 +67,7 @@ class SupermarketAdapter (
     }
 
      interface OnSupermarketListener{
-         fun onItemSupermarketClick(supermarket: Supermarket, position: Int)
+         fun onItemSupermarketClick(supermarket: Supermarket, position: Int, view: View)
          fun OnItemLongSupermarket(supermarket: Supermarket, view: View)
          fun onClickIconRemove(supermarket: Supermarket)
 

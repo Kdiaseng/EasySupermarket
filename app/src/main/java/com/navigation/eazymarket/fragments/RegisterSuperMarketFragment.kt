@@ -45,7 +45,6 @@ class RegisterSuperMarketFragment : Fragment() {
             textInputdescription.setText(supermarket?.description)
            }
 
-
         if(isSave()){
             btnCreateSupermarket.text = getString(R.string.SAVE)
             (activity as AppCompatActivity).supportActionBar?.title = "Cadastro"
@@ -53,7 +52,6 @@ class RegisterSuperMarketFragment : Fragment() {
             btnCreateSupermarket.text = getString(R.string.UPDATE)
             (activity as AppCompatActivity).supportActionBar?.title = supermarket!!.name
         }
-
 
         btnCreateSupermarket.setOnClickListener {
 

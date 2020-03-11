@@ -53,8 +53,8 @@ class SupermarketFragment : Fragment(),  SupermarketAdapter.OnSupermarketListene
         return (AppDatabase(activity!!).supermarketDao().all())
     }
 
-    override fun onItemSupermarketClick(supermarket: Supermarket, position: Int) {
-            Toast.makeText(context, "muita loucura ${supermarket.name} , position : ${position}",Toast.LENGTH_SHORT).show()
+    override fun onItemSupermarketClick(supermarket: Supermarket, position: Int, view: View) {
+           Navigation.findNavController(view).navigate(R.id.action_supermarketFragment_to_readQrCodeFragment)
     }
 
     override fun OnItemLongSupermarket(supermarket: Supermarket, view: View) {
