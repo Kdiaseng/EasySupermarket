@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 
 import com.navigation.eazymarket.R
@@ -42,9 +43,20 @@ class RegisterSuperMarketFragment : Fragment() {
             supermarket = RegisterSuperMarketFragmentArgs.fromBundle(it).supermarket
             textInputName.setText(supermarket?.name)
             textInputdescription.setText(supermarket?.description)
+           }
+
+
+        if(isSave()){
+            btnCreateSupermarket.text = getString(R.string.SAVE)
+            (activity as AppCompatActivity).supportActionBar?.title = "Cadastro"
+        }else{
+            btnCreateSupermarket.text = getString(R.string.UPDATE)
+            (activity as AppCompatActivity).supportActionBar?.title = supermarket!!.name
         }
 
+
         btnCreateSupermarket.setOnClickListener {
+
             val name = textInputName.text.toString().trim()
             val description = textInputdescription.text.toString().trim()
 
@@ -61,7 +73,8 @@ class RegisterSuperMarketFragment : Fragment() {
             }
             val supermarketToSave = Supermarket(name, description)
 
-            if(supermarket == null){
+            if(isSave()){
+                btnCreateSupermarket.text = getString(R.string.SAVE)
                 saveSupermarket(supermarketToSave,it)
             }else {
                 supermarketToSave.id = this.supermarket!!.id
@@ -71,6 +84,10 @@ class RegisterSuperMarketFragment : Fragment() {
         }
 
 }
+
+    private fun isSave(): Boolean{
+        return (supermarket == null)
+    }
 
     private fun updateSupermarket(supermarketToSave: Supermarket, veiw: View) {
             AppDatabase(activity!!).supermarketDao().updateSupermarket(supermarketToSave)

@@ -18,4 +18,6 @@
     <string name="DESCRIPTION_REQUIRED">Decrição requerida</string>
     <string name="SUCCESS_UPDATE_SUPERMARKET">Registro atualizado com sucesso</string>
     <string name="REMOVE_ITEM_SUCCESS">Item removido com sucesso!</string>
+    <string name="UPDATE">ATUALIZAR</string>
+    <string name="SAVE">CADASTRAR</string>
 </resources>
