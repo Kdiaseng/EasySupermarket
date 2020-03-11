@@ -6,6 +6,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.navigation.eazymarket.R
@@ -38,9 +39,18 @@ class SupermarketAdapter (
                 action.onItemSupermarketClick(supermarket, position)
             }
 
+            val iconRemove = itemView.imageRemove
+
+            iconRemove.setOnClickListener {
+                action.onClickIconRemove(supermarket)
+            }
+
         }
 
+
     }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context) .inflate(R.layout.item_supermarket, parent, false)
@@ -59,6 +69,8 @@ class SupermarketAdapter (
      interface OnSupermarketListener{
          fun onItemSupermarketClick(supermarket: Supermarket, position: Int)
          fun OnItemLongSupermarket(supermarket: Supermarket, view: View)
+         fun onClickIconRemove(supermarket: Supermarket)
+
     }
 
 

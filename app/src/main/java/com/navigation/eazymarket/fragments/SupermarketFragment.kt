@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.navigation.eazymarket.R
 import com.navigation.eazymarket.adapter.SupermarketAdapter
@@ -35,11 +37,16 @@ class SupermarketFragment : Fragment(),  SupermarketAdapter.OnSupermarketListene
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val recyclerViewMarket = rclistSuperMarket
-        recyclerViewMarket.adapter = SupermarketAdapter(genereteListSuperMarket(), this.requireContext(),this)
+        //val recyclerViewMarket = rclistSuperMarket
+        loadSupermarketList(rclistSuperMarket)
+
+    }
+
+    private fun loadSupermarketList(recyclerViewMarket: RecyclerView) {
+        recyclerViewMarket.adapter =
+            SupermarketAdapter(genereteListSuperMarket(), this.requireContext(), this)
         val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         recyclerViewMarket.layoutManager = layoutManager
-
     }
 
     private fun genereteListSuperMarket(): List<Supermarket> {
@@ -56,6 +63,27 @@ class SupermarketFragment : Fragment(),  SupermarketAdapter.OnSupermarketListene
             Navigation.findNavController(view).navigate(action)
 
     }
+
+    override fun onClickIconRemove(supermarket: Supermarket) {
+        val builder = AlertDialog.Builder(activity!!)
+        builder.setTitle("Alerta")
+        builder.setMessage("Deseja realmente excluir o item?")
+
+        builder.setPositiveButton("SIM"){dialog, which ->
+            AppDatabase(activity!!).supermarketDao().delete(supermarket)
+            Toast.makeText(context, getString(R.string.REMOVE_ITEM_SUCCESS),Toast.LENGTH_SHORT).show()
+            loadSupermarketList(rclistSuperMarket)
+        }
+
+        builder.setNegativeButton("NÃO"){dialog,which ->
+
+        }
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+
+
+    }
+
 
 
 }

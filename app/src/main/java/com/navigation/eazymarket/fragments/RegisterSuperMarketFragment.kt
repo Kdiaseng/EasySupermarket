@@ -65,14 +65,17 @@ class RegisterSuperMarketFragment : Fragment() {
                 saveSupermarket(supermarketToSave,it)
             }else {
                 supermarketToSave.id = this.supermarket!!.id
-                updateSupermarket(supermarketToSave)
+                updateSupermarket(supermarketToSave, it)
+
             }
         }
 
 }
 
-    private fun updateSupermarket(supermarketToSave: Supermarket) {
+    private fun updateSupermarket(supermarketToSave: Supermarket, veiw: View) {
             AppDatabase(activity!!).supermarketDao().updateSupermarket(supermarketToSave)
+            Toast.makeText(activity, getString(R.string.SUCCESS_UPDATE_SUPERMARKET),Toast.LENGTH_SHORT).show()
+         Navigation.findNavController(view!!).navigate(R.id.action_registerSuperMarketFragment_to_supermarketFragment2)
     }
 
     private fun saveSupermarket(supermarket: Supermarket, view: View){
