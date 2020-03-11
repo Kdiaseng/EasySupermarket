@@ -6,16 +6,15 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.navigation.eazymarket.R
-import com.navigation.eazymarket.model.SuperMarketDTO
+import com.navigation.eazymarket.domain.Supermarket
 import kotlinx.android.synthetic.main.item_supermarket.view.*
 
 
 class SupermarketAdapter (
-    private val superMarkerts: List<SuperMarketDTO>,
+    private val superMarkerts: List<Supermarket>,
     private val context: Context,
     var itemClickListener: OnSupermarketListener)
     : Adapter<SupermarketAdapter.ViewHolder>() {
@@ -23,20 +22,20 @@ class SupermarketAdapter (
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
-        fun bindView(superMarketDTO: SuperMarketDTO, action: OnSupermarketListener,  position: Int){
+        fun bindView(supermarket: Supermarket, action: OnSupermarketListener,  position: Int){
             val name = itemView.txtNameItem
             val description = itemView.txtDescriptionItem
 
-            name.text = superMarketDTO.name
-            description.text = superMarketDTO.descrition
+            name.text = supermarket.name
+            description.text = supermarket.description
 
             itemView.setOnLongClickListener {
-                action.OnItemLongSupermarket(superMarketDTO)
+                action.OnItemLongSupermarket(supermarket, itemView)
                 return@setOnLongClickListener true
             }
 
             itemView.setOnClickListener {
-                action.onItemSupermarketClick(superMarketDTO, position)
+                action.onItemSupermarketClick(supermarket, position)
             }
 
         }
@@ -58,8 +57,8 @@ class SupermarketAdapter (
     }
 
      interface OnSupermarketListener{
-         fun onItemSupermarketClick(superMarketDTO: SuperMarketDTO, position: Int)
-         fun OnItemLongSupermarket(superMarketDTO: SuperMarketDTO)
+         fun onItemSupermarketClick(supermarket: Supermarket, position: Int)
+         fun OnItemLongSupermarket(supermarket: Supermarket, view: View)
     }
 
 

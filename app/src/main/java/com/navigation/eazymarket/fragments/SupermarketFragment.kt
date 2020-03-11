@@ -1,6 +1,5 @@
 package com.navigation.eazymarket.fragments
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,19 +8,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import androidx.room.Room
 import com.navigation.eazymarket.R
 import com.navigation.eazymarket.adapter.SupermarketAdapter
-import com.navigation.eazymarket.dao.SupermarketDao
 import com.navigation.eazymarket.database.AppDatabase
-import com.navigation.eazymarket.model.SuperMarketDTO
+import com.navigation.eazymarket.domain.Supermarket
 import kotlinx.android.synthetic.main.fragment_supermarket.*
 import kotlinx.android.synthetic.main.fragment_supermarket.view.*
-import java.lang.Appendable
-import java.text.FieldPosition
 
 
 class SupermarketFragment : Fragment(),  SupermarketAdapter.OnSupermarketListener {
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,16 +42,18 @@ class SupermarketFragment : Fragment(),  SupermarketAdapter.OnSupermarketListene
 
     }
 
-    private fun genereteListSuperMarket(): List<SuperMarketDTO> {
-        return SuperMarketDTO.converListEntityToListDto(AppDatabase(activity!!).supermarketDao().all())
+    private fun genereteListSuperMarket(): List<Supermarket> {
+        return (AppDatabase(activity!!).supermarketDao().all())
     }
 
-    override fun onItemSupermarketClick(superMarketDTO: SuperMarketDTO, position: Int) {
-            Toast.makeText(context, "muita loucura ${superMarketDTO.name} , position : ${position}",Toast.LENGTH_SHORT).show()
+    override fun onItemSupermarketClick(supermarket: Supermarket, position: Int) {
+            Toast.makeText(context, "muita loucura ${supermarket.name} , position : ${position}",Toast.LENGTH_SHORT).show()
     }
 
-    override fun OnItemLongSupermarket(superMarketDTO: SuperMarketDTO) {
-        Toast.makeText(context, "LONG -----: ${superMarketDTO.name}",Toast.LENGTH_SHORT).show()
+    override fun OnItemLongSupermarket(supermarket: Supermarket, view: View) {
+            val action = SupermarketFragmentDirections.actionSupermarketFragmentToRegisterSuperMarketFragment()
+            action.supermarket = supermarket
+            Navigation.findNavController(view).navigate(action)
 
     }
 

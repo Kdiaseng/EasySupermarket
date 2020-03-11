@@ -24,6 +24,11 @@
         <action
             android:id="@+id/action_registerSuperMarketFragment_to_supermarketFragment2"
             app:destination="@id/supermarketsFragment" />
+        <argument
+            app:argType="com.navigation.eazymarket.domain.Supermarket"
+            android:name="Supermarket"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/readQrCodeFragment"
