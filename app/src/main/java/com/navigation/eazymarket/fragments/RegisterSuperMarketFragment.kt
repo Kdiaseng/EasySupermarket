@@ -35,7 +35,6 @@ class RegisterSuperMarketFragment : Fragment() {
         return view
     }
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -76,7 +75,7 @@ class RegisterSuperMarketFragment : Fragment() {
                 saveSupermarket(supermarketToSave,it)
             }else {
                 supermarketToSave.id = this.supermarket!!.id
-                updateSupermarket(supermarketToSave, it)
+                updateSupermarket(supermarketToSave)
 
             }
         }
@@ -87,9 +86,9 @@ class RegisterSuperMarketFragment : Fragment() {
         return (supermarket == null)
     }
 
-    private fun updateSupermarket(supermarketToSave: Supermarket, veiw: View) {
-            AppDatabase(activity!!).supermarketDao().updateSupermarket(supermarketToSave)
-            Toast.makeText(activity, getString(R.string.SUCCESS_UPDATE_SUPERMARKET),Toast.LENGTH_SHORT).show()
+    private fun updateSupermarket(supermarketToSave: Supermarket) {
+         AppDatabase(activity!!).supermarketDao().updateSupermarket(supermarketToSave)
+         Toast.makeText(activity, getString(R.string.SUCCESS_UPDATE_SUPERMARKET),Toast.LENGTH_SHORT).show()
          Navigation.findNavController(view!!).navigate(R.id.action_registerSuperMarketFragment_to_supermarketFragment2)
     }
 

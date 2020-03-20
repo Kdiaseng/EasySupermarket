@@ -41,6 +41,9 @@
         <action
             android:id="@+id/action_readQrCodeFragment_to_registerProductFragment"
             app:destination="@id/registerProductFragment" />
+        <argument
+            android:name="supermarketId"
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/registerProductFragment"
@@ -50,6 +53,10 @@
         <action
             android:id="@+id/action_registerProductFragment_to_readQrCodeFragment"
             app:destination="@id/readQrCodeFragment" />
+        <argument
+            android:name="supermarketId"
+            app:argType="long"
+            android:defaultValue="0L" />
     </fragment>
     <fragment
         android:id="@+id/productosFragment"

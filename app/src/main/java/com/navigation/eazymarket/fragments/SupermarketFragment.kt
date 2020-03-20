@@ -36,7 +36,6 @@ class SupermarketFragment : Fragment(),  SupermarketAdapter.OnSupermarketListene
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         //val recyclerViewMarket = rclistSuperMarket
         loadSupermarketList(rclistSuperMarket)
 
@@ -54,7 +53,8 @@ class SupermarketFragment : Fragment(),  SupermarketAdapter.OnSupermarketListene
     }
 
     override fun onItemSupermarketClick(supermarket: Supermarket, position: Int, view: View) {
-           Navigation.findNavController(view).navigate(R.id.action_supermarketFragment_to_readQrCodeFragment)
+        val action = SupermarketFragmentDirections.actionSupermarketFragmentToReadQrCodeFragment(supermarket.id)
+        Navigation.findNavController(view).navigate(action)
     }
 
     override fun OnItemLongSupermarket(supermarket: Supermarket, view: View) {

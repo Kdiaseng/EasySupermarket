@@ -4,12 +4,18 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.navigation.eazymarket.dao.ProductDao
 import com.navigation.eazymarket.dao.SupermarketDao
+import com.navigation.eazymarket.dao.SupermarketProductJoinDao
+import com.navigation.eazymarket.domain.Product
 import com.navigation.eazymarket.domain.Supermarket
+import com.navigation.eazymarket.domain.SupermarketProductJoin
 
-@Database(entities = [Supermarket::class], version = 1, exportSchema = false)
+@Database(entities = [Supermarket::class, Product :: class, SupermarketProductJoin ::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase(){
     abstract fun supermarketDao(): SupermarketDao
+    abstract fun productDao(): ProductDao
+    abstract fun supermarketProductJoinDao(): SupermarketProductJoinDao
 
     companion object{
        @Volatile private var instance : AppDatabase? = null
@@ -26,7 +32,7 @@ abstract class AppDatabase : RoomDatabase(){
             context.applicationContext,
             AppDatabase:: class.java,
             "easy-supermarket-database"
-        ).allowMainThreadQueries()
+        ).allowMainThreadQueries().fallbackToDestructiveMigration()
             .build()
     }
 }

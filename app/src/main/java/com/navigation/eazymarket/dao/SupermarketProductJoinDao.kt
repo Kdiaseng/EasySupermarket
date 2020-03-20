@@ -1,0 +1,36 @@
+package com.navigation.eazymarket.dao
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import com.navigation.eazymarket.domain.Product
+import com.navigation.eazymarket.domain.Supermarket
+import com.navigation.eazymarket.domain.SupermarketProductJoin
+
+@Dao
+interface SupermarketProductJoinDao {
+    @Insert
+    fun insert(supermarketProductJoin: SupermarketProductJoin)
+
+
+    @Query(  "" +
+            "SELECT * FROM PRODUCT " +
+            "JOIN SUPERMARKETPRODUCTJOIN " +
+            "ON PRODUCT.ID = SUPERMARKETPRODUCTJOIN.product " +
+            "WHERE SUPERMARKETPRODUCTJOIN.supermarket =:supermarketId " )
+    fun getProductForSupermarketList(supermarketId: Long): Array<Product>
+
+    @Query( "SELECT * FROM SUPERMARKET " +
+            "JOIN SUPERMARKETPRODUCTJOIN " +
+            "ON SUPERMARKET.ID = SUPERMARKETPRODUCTJOIN.supermarket " +
+            "WHERE SUPERMARKETPRODUCTJOIN.product=:productId")
+    fun getSupermarketForProductList(productId: Long): Array<Supermarket>
+
+    @Query(  "" +
+            "SELECT * FROM PRODUCT " +
+            "JOIN SUPERMARKETPRODUCTJOIN " +
+            "ON PRODUCT.ID = SUPERMARKETPRODUCTJOIN.product " +
+            "WHERE SUPERMARKETPRODUCTJOIN.supermarket=:supermarketId AND PRODUCT.CODE=:code " )
+    fun getProductForIdSupermarketFromCode(supermarketId: Long, code: String): Array<Product>
+
+}

@@ -18,7 +18,7 @@ foreignKeys = [
     )
 ]
 )
-data class SupermarketProduct(
+data class SupermarketProductJoin(
     val supermarket: Long,
     val product: Long
 ) {
