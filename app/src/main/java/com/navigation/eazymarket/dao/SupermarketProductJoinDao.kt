@@ -33,4 +33,10 @@ interface SupermarketProductJoinDao {
             "WHERE SUPERMARKETPRODUCTJOIN.supermarket=:supermarketId AND PRODUCT.CODE=:code " )
     fun getProductForIdSupermarketFromCode(supermarketId: Long, code: String): Array<Product>
 
+
+    @Query(  "" +
+            "SELECT * FROM SUPERMARKETPRODUCTJOIN " +
+            "WHERE SUPERMARKETPRODUCTJOIN.supermarket=:supermarketId AND SUPERMARKETPRODUCTJOIN.product=:productId " )
+    fun verifyProductInSupermarket(supermarketId: Long, productId: Long): SupermarketProductJoin
+
 }

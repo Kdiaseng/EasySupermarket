@@ -18,6 +18,7 @@ import com.karumi.dexter.listener.single.PermissionListener
 import com.navigation.eazymarket.R
 import com.navigation.eazymarket.database.AppDatabase
 import com.navigation.eazymarket.domain.Product
+import com.navigation.eazymarket.domain.SupermarketProductJoin
 import kotlinx.android.synthetic.main.fragment_read_qr_code.*
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 
@@ -25,6 +26,10 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView
 class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
 
     private var supermarketId: Long = 0
+
+    companion object {
+        private val NOT_FOUND_PRODUCT: Long = -1
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,32 +74,44 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
     override fun handleResult(rawResult: Result?) {
         rawResult?.let {
             txt_result.text = rawResult.text
-            if (hasCodeInProduct("5522")) {
-                Toast.makeText(activity, "Adcionado com sucesso", Toast.LENGTH_SHORT).show()
-            } else {
-                val action = ReadQrCodeFragmentDirections.actionReadQrCodeFragmentToRegisterProductFragment()
-                action.supermarketId = this.supermarketId
-                Navigation.findNavController(this.requireView()).navigate(action)
-            }
-        }        //  qrCodeScanner.startCamera()
-
-    }
-
-    private fun hasCodeInProduct(code: String): Boolean {
-        val result = findProductByIdSupermarketAndCode(this.supermarketId,code)
-        if (result.isNotEmpty()){
-            return true
+            val product = getProductByCode(rawResult.text.toString())
+            product?.let {
+                if (hasProductInCurrentSupermarket(product.id, supermarketId)) {
+                    //showAlertDialog()
+                } else {
+                    //showAletDialogToInputValueProduct()
+                    saveProductInSupermarket(product.id, supermarketId)
+                    //addProductInCar()
+                }
+            }?: showRegisterProductScreen()
         }
-        return false
+        //  qrCodeScanner.startCamera()
     }
 
-    private fun findProductByCode(code: String): Product? {
-        return (AppDatabase(activity!!).productDao().getProductForCode(code))
+    private fun showRegisterProductScreen() {
+        val action =
+            ReadQrCodeFragmentDirections.actionReadQrCodeFragmentToRegisterProductFragment()
+        action.supermarketId = this.supermarketId
+        Navigation.findNavController(this.requireView()).navigate(action)
     }
 
-    fun findProductByIdSupermarketAndCode(supermarketId: Long, code: String): Array<Product>{
-       return (AppDatabase(activity!!).supermarketProductJoinDao().getProductForIdSupermarketFromCode(supermarketId, code))
+    private fun saveProductInSupermarket(idProduct: Long, idSupermarket: Long){
+        AppDatabase(activity!!).supermarketProductJoinDao().insert(SupermarketProductJoin(idSupermarket,idProduct ))
     }
+
+    private fun getProductByCode(code: String): Product? {
+        return  AppDatabase(activity!!).productDao().getProductForCode(code)
+    }
+
+    private fun hasProductInCurrentSupermarket(IdProduct: Long, IdSupermarket: Long): Boolean {
+        val result = AppDatabase(activity!!).supermarketProductJoinDao()
+            .verifyProductInSupermarket(IdSupermarket, IdProduct)
+        if (result.equals(null)) {
+            return false
+        }
+        return true
+    }
+
 
     override fun onResume() {
         super.onResume()

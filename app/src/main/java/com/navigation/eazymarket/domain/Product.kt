@@ -12,6 +12,7 @@ data class Product(
     val valueUnit: Double
 ): Serializable {
 
+
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
 }
