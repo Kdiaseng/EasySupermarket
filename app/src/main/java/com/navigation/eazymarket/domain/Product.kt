@@ -8,11 +8,8 @@ import java.io.Serializable
 data class Product(
     val code: String,
     val name: String,
-    val description: String,
-    val valueUnit: Double
+    val description: String
 ): Serializable {
-
-
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
 }

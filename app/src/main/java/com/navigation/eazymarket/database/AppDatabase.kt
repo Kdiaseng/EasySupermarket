@@ -11,7 +11,7 @@ import com.navigation.eazymarket.domain.Product
 import com.navigation.eazymarket.domain.Supermarket
 import com.navigation.eazymarket.domain.SupermarketProductJoin
 
-@Database(entities = [Supermarket::class, Product :: class, SupermarketProductJoin ::class], version = 2, exportSchema = false)
+@Database(entities = [Supermarket::class, Product :: class, SupermarketProductJoin ::class], version = 4, exportSchema = false)
 abstract class AppDatabase : RoomDatabase(){
     abstract fun supermarketDao(): SupermarketDao
     abstract fun productDao(): ProductDao

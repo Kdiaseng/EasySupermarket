@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.google.zxing.Result
@@ -18,7 +19,7 @@ import com.karumi.dexter.listener.single.PermissionListener
 import com.navigation.eazymarket.R
 import com.navigation.eazymarket.database.AppDatabase
 import com.navigation.eazymarket.domain.Product
-import com.navigation.eazymarket.domain.SupermarketProductJoin
+import com.navigation.eazymarket.utils.DialogCustom
 import kotlinx.android.synthetic.main.fragment_read_qr_code.*
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 
@@ -74,18 +75,26 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
     override fun handleResult(rawResult: Result?) {
         rawResult?.let {
             txt_result.text = rawResult.text
-            val product = getProductByCode(rawResult.text.toString())
-            product?.let {
+            val product = getProductByCode("1234")
+            if (product != null) {
                 if (hasProductInCurrentSupermarket(product.id, supermarketId)) {
                     //showAlertDialog()
                 } else {
                     //showAletDialogToInputValueProduct()
-                    saveProductInSupermarket(product.id, supermarketId)
+                    //   saveProductInSupermarket(product.id, supermarketId)
                     //addProductInCar()
                 }
-            }?: showRegisterProductScreen()
+            } else {
+                DialogCustom.getInstance(activity!!).showDialogGeneric(
+                    "Código não cadastrado",
+                    "Deseja cadastrar o código lido?",
+                    "SIM",
+                    "NÃO",
+                    ::actionDialog
+                )
+                //showDialogAskWantSaveCode()
+            }
         }
-        //  qrCodeScanner.startCamera()
     }
 
     private fun showRegisterProductScreen() {
@@ -95,21 +104,47 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
         Navigation.findNavController(this.requireView()).navigate(action)
     }
 
-    private fun saveProductInSupermarket(idProduct: Long, idSupermarket: Long){
-        AppDatabase(activity!!).supermarketProductJoinDao().insert(SupermarketProductJoin(idSupermarket,idProduct ))
+    /* private fun saveProductInSupermarket(idProduct: Long, idSupermarket: Long){
+         AppDatabase(activity!!).supermarketProductJoinDao().insert(SupermarketProductJoin(idSupermarket,idProduct,))
+     }*/
+
+
+    private fun actionDialog(code: Int): Boolean {
+        if (code == 1) {
+            showRegisterProductScreen()
+        } else {
+            qrCodeScanner.startCamera()
+        }
+        return true
+    }
+
+
+    private fun showDialogAskWantSaveCode() {
+        val builder = AlertDialog.Builder(activity!!)
+        builder.setTitle("Código não cadastrado")
+        builder.setMessage("Deseja cadastrar o código lido?")
+            .setPositiveButton("SIM") { _, _ ->
+                showRegisterProductScreen()
+            }
+            .setNegativeButton("CANCELAR") { _, _ ->
+                qrCodeScanner.startCamera()
+            }
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 
     private fun getProductByCode(code: String): Product? {
-        return  AppDatabase(activity!!).productDao().getProductForCode(code)
+        return AppDatabase(activity!!).productDao().getProductForCode(code)
     }
 
     private fun hasProductInCurrentSupermarket(IdProduct: Long, IdSupermarket: Long): Boolean {
         val result = AppDatabase(activity!!).supermarketProductJoinDao()
             .verifyProductInSupermarket(IdSupermarket, IdProduct)
-        if (result.equals(null)) {
-            return false
+
+        if (result != null) {
+            return true
         }
-        return true
+        return false
     }
 
 
@@ -127,5 +162,6 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
         super.onDestroy()
         qrCodeScanner.startCamera()
     }
+
 
 }

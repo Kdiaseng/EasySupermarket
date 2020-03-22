@@ -1,12 +1,11 @@
 package com.navigation.eazymarket.fragments
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.navigation.eazymarket.R
 import com.navigation.eazymarket.database.AppDatabase
 import com.navigation.eazymarket.domain.Product
@@ -19,6 +18,8 @@ import kotlinx.android.synthetic.main.fragment_register_product.*
 class RegisterProductFragment : Fragment() {
 
     var supermarketId: Long = 0
+    var isAddInCar: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,25 +35,34 @@ class RegisterProductFragment : Fragment() {
             this.supermarketId = RegisterProductFragmentArgs.fromBundle(it).supermarketId
         }
 
+        switch_add_car.setOnCheckedChangeListener { _, isChecked ->
+            this.isAddInCar = isChecked
+            switch_add_car.text = if (isChecked) "Item adicionado" else "Item não adicionado"
+        }
+
         btnCreateProduct.setOnClickListener {
             val product = Product(
                 textInputCode.text.toString(),
                 textInputDescriptionProduct.text.toString(),
-                textInputNameProduct.text.toString(),
-                textInputValueUnit.text.toString().toDouble()
+                textInputNameProduct.text.toString()
             )
-            saveProduct(product)
+            saveProduct(product, textInputValueUnit.text.toString().toDouble())
         }
 
     }
 
-    private fun saveProduct(product: Product) {
+    private fun saveProduct(product: Product, valueUnit: Double) {
         val idProduct = AppDatabase(activity!!).productDao().add(product)
-        saveSupermarketProductJoin(SupermarketProductJoin(this.supermarketId, idProduct))
+        val qtd = if (isAddInCar) 1 else 0
+        val supermarketProductJoin =
+            SupermarketProductJoin(supermarketId, idProduct, valueUnit, qtd)
+        saveSupermarketProductJoin(supermarketProductJoin)
+        Toast.makeText(activity,"Produto cadastrado com sucesso!!", Toast.LENGTH_SHORT).show()
     }
 
     private fun saveSupermarketProductJoin(supermarketProductJoin: SupermarketProductJoin) {
         AppDatabase(activity!!).supermarketProductJoinDao().insert(supermarketProductJoin)
     }
+
 
 }

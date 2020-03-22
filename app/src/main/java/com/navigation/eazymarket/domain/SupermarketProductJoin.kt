@@ -20,7 +20,9 @@ foreignKeys = [
 )
 data class SupermarketProductJoin(
     val supermarket: Long,
-    val product: Long
+    val product: Long,
+    val valueProdut: Double,
+    val quantity: Int = 0
 ) {
 
 }

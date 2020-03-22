@@ -12,4 +12,5 @@ data class Supermarket (
 
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
+    var isUsing : Boolean = false
 }
