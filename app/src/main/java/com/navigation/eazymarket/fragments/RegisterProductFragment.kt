@@ -43,8 +43,8 @@ class RegisterProductFragment : Fragment() {
         btnCreateProduct.setOnClickListener {
             val product = Product(
                 textInputCode.text.toString(),
-                textInputDescriptionProduct.text.toString(),
-                textInputNameProduct.text.toString()
+                textInputNameProduct.text.toString(),
+                textInputDescriptionProduct.text.toString()
             )
             saveProduct(product, textInputValueUnit.text.toString().toDouble())
         }

@@ -3,6 +3,7 @@ package com.navigation.eazymarket.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.navigation.eazymarket.domain.Product
 import com.navigation.eazymarket.domain.Supermarket
 import com.navigation.eazymarket.domain.SupermarketProductJoin
@@ -12,6 +13,8 @@ interface SupermarketProductJoinDao {
     @Insert
     fun insert(supermarketProductJoin: SupermarketProductJoin)
 
+    @Update
+    fun update(supermarketProductJoin: SupermarketProductJoin)
 
     @Query(  "" +
             "SELECT * FROM PRODUCT " +
