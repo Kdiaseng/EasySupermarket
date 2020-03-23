@@ -180,7 +180,7 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
 
     override fun onDestroy() {
         super.onDestroy()
-        qrCodeScanner.startCamera()
+        qrCodeScanner.stopCamera()
     }
 
 
