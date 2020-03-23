@@ -13,12 +13,12 @@
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            android:text="Deseja adicionar no carrinho?"
+            android:text="Adicionar produto no supermercado?"
             android:textSize="20dp"
             android:fontFamily="sans-serif"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textview_title"/>
+            android:id="@+id/textview_title_input_switch"/>
 
     </LinearLayout>
 
@@ -36,7 +36,7 @@
             android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textview_name_product_diolog"/>
+            android:id="@+id/textview_name_input_switch"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/TextInputEditText_value"
@@ -47,12 +47,18 @@
             app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textInputValueDialog"
+                android:id="@+id/textInputValueDialogInputSwitch"
                 android:layout_width="match_parent"
                 android:textColor="@color/primaryTextColor"
                 android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <Switch
+            android:id="@+id/switch_add_car_dialog_input_switch"
+            android:text="Adicionar no carrinho?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </LinearLayout>

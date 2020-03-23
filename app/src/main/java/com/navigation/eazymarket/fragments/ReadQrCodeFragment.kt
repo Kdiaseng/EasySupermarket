@@ -85,9 +85,18 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
                 if (supermarketProductJoin != null) {
                     checkAndConfirmProductValue(product, supermarketProductJoin)
                 } else {
-                    //showAletDialogToInputValueProduct()
-                    //   saveProductInSupermarket(product.id, supermarketId)
-                    //addProductInCar()
+
+                    DialogCustom.getInstance(activity!!).showDialogWithInputAndSwith(
+                        requireActivity().layoutInflater,
+                        "Adicionar produto no supermercado?",
+                        product.name,
+                        0.0,
+                        "SIM",
+                        "NÃO",
+                        ::saveProductInSupermarket,
+                        SupermarketProductJoin(supermarketId,product.id,0.0)
+                    )
+                    Toast.makeText(activity,"Item adicionado com sucesso!",Toast.LENGTH_SHORT).show()
                 }
             } else {
                 questionRegisterCode()
@@ -139,9 +148,10 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
         Navigation.findNavController(this.requireView()).navigate(action)
     }
 
-    /* private fun saveProductInSupermarket(idProduct: Long, idSupermarket: Long){
-         AppDatabase(activity!!).supermarketProductJoinDao().insert(SupermarketProductJoin(idSupermarket,idProduct,))
-     }*/
+    private fun saveProductInSupermarket(supermarketProductJoin: SupermarketProductJoin): Boolean{
+         AppDatabase(activity!!).supermarketProductJoinDao().insert(supermarketProductJoin)
+        return true
+     }
 
 
     private fun actionDialog(code: Int): Boolean {
