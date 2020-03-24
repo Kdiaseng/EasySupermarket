@@ -13,12 +13,52 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="165dp"
-            android:src="@drawable/ic_home"/>
+            android:layout_height="124dp"
+            android:src="@drawable/ic_shopping_cart" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcListProduct"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:gravity="end"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Valor total :" />
+
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="R$" />
+
+            <TextView
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginStart="5dp"
+                android:id="@+id/txtView_full_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="300,0" />
+
+            <Button
+                android:textStyle="bold"
+                android:layout_marginStart="20dp"
+                android:layout_gravity=""
+                android:id="@+id/button_close_car"
+                android:text="@string/finalizar_carrinho"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

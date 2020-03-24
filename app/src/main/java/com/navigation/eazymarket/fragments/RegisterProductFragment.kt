@@ -40,7 +40,7 @@ class RegisterProductFragment : Fragment() {
         textInputCode.setText(registerProductParam!!.code)
         switch_add_car.setOnCheckedChangeListener { _, isChecked ->
             this.isAddInCar = isChecked
-            switch_add_car.text = if (isChecked) "Item adicionado" else "Item não adicionado"
+            switch_add_car.text = if (isChecked) "Item adicionado  " else "Item não adicionado  "
         }
 
         btnCreateProduct.setOnClickListener {
