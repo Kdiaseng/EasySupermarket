@@ -10,6 +10,7 @@ import com.navigation.eazymarket.R
 import com.navigation.eazymarket.database.AppDatabase
 import com.navigation.eazymarket.domain.Product
 import com.navigation.eazymarket.domain.SupermarketProductJoin
+import com.navigation.eazymarket.model.RegisterProductParam
 import kotlinx.android.synthetic.main.fragment_register_product.*
 
 /**
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_register_product.*
  */
 class RegisterProductFragment : Fragment() {
 
-    var supermarketId: Long = 0
+    var registerProductParam: RegisterProductParam? = null
     var isAddInCar: Boolean = false
 
     override fun onCreateView(
@@ -32,9 +33,11 @@ class RegisterProductFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         arguments?.let {
-            this.supermarketId = RegisterProductFragmentArgs.fromBundle(it).supermarketId
+            this.registerProductParam = RegisterProductFragmentArgs.fromBundle(it).registerProductParam
+
         }
 
+        textInputCode.setText(registerProductParam!!.code)
         switch_add_car.setOnCheckedChangeListener { _, isChecked ->
             this.isAddInCar = isChecked
             switch_add_car.text = if (isChecked) "Item adicionado" else "Item não adicionado"
@@ -55,7 +58,7 @@ class RegisterProductFragment : Fragment() {
         val idProduct = AppDatabase(activity!!).productDao().add(product)
         val qtd = if (isAddInCar) 1 else 0
         val supermarketProductJoin =
-            SupermarketProductJoin(supermarketId, idProduct, valueUnit, qtd)
+            SupermarketProductJoin(registerProductParam!!.supermarketId, idProduct, valueUnit, qtd)
         saveSupermarketProductJoin(supermarketProductJoin)
         Toast.makeText(activity,"Produto cadastrado com sucesso!!", Toast.LENGTH_SHORT).show()
     }

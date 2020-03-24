@@ -23,7 +23,7 @@ class DialogCustom(val context: Context) {
         message: String,
         namePositiveButton: String,
         nameNegativeButton: String,
-        function: (code: Int) -> Boolean,
+        function: (code: Int) -> Unit,
         codeFunctionPositive: Int,
         CodeFunctionNegative: Int
     ) {
@@ -48,7 +48,6 @@ class DialogCustom(val context: Context) {
         namePositiveButton: String,
         nameNegativeButton: String,
         function: (value: String, supermarketProductJoin: SupermarketProductJoin) -> Boolean,
-        supermarketProductJoin1: KFunction0<Unit>,
         supermarketProductJoin: SupermarketProductJoin
     ) {
         val builder = AlertDialog.Builder(context)
@@ -79,8 +78,7 @@ class DialogCustom(val context: Context) {
         value: Double,
         namePositiveButton: String,
         nameNegativeButton: String,
-        saveInSupermarket: (SupermarketProductJoin) -> Boolean,
-        actionNegative : () -> Unit,
+        saveInSupermarket: (SupermarketProductJoin) -> Unit,
         supermarketProductJoin: SupermarketProductJoin
     ) {
 
@@ -109,7 +107,7 @@ class DialogCustom(val context: Context) {
 
         builder.setNegativeButton(nameNegativeButton) { dialogInterface, _ ->
             dialogInterface.cancel()
-            actionNegative()
+
         }
 
         val dialog: AlertDialog = builder.create()

@@ -54,9 +54,9 @@
             android:id="@+id/action_registerProductFragment_to_readQrCodeFragment"
             app:destination="@id/readQrCodeFragment" />
         <argument
-            android:name="supermarketId"
-            app:argType="long"
-            android:defaultValue="0L" />
+            android:name="registerProductParam"
+            app:argType="com.navigation.eazymarket.model.RegisterProductParam"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/productosFragment"

@@ -19,6 +19,7 @@ import com.navigation.eazymarket.R
 import com.navigation.eazymarket.database.AppDatabase
 import com.navigation.eazymarket.domain.Product
 import com.navigation.eazymarket.domain.SupermarketProductJoin
+import com.navigation.eazymarket.model.RegisterProductParam
 import com.navigation.eazymarket.utils.DialogCustom
 import kotlinx.android.synthetic.main.fragment_read_qr_code.*
 import me.dm7.barcodescanner.zxing.ZXingScannerView
@@ -27,11 +28,11 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView
 class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
 
     private var supermarketId: Long = 0
+    private var codeRead: String? = null
 
     companion object {
-        private val NOT_FOUND_PRODUCT: Long = -1
-        private val ACTION_SHOW_REGISTER_PRODUCT_SCREEM_SHOW = 1
-        private val START_CAMERA = 2
+         private const val ACTION_SHOW_REGISTER_PRODUCT_SCREEN_SHOW = 1
+        private const val START_CAMERA = 2
 
     }
 
@@ -78,7 +79,8 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
     override fun handleResult(rawResult: Result?) {
         rawResult?.let {
             txt_result.text = rawResult.text
-            val product = getProductByCode("123")
+            codeRead = rawResult.text.toString()
+            val product = getProductByCode("1234")
             if (product != null) {
                 val supermarketProductJoin =
                     getProductInCurrentSupermarket(product.id, supermarketId)
@@ -95,7 +97,7 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
         }
     }
 
-    fun openCamera(){
+    private fun openCamera() {
         qrCodeScanner.startCamera()
         qrCodeScanner.setResultHandler(this)
     }
@@ -109,14 +111,10 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
             "SIM",
             "NÃO",
             ::saveProductInSupermarket,
-            ::startReaderQrCode,
             SupermarketProductJoin(supermarketId, product.id, 0.0)
         )
     }
 
-    private fun startReaderQrCode(){
-        qrCodeScanner.startCamera()
-    }
     private fun questionRegisterCode() {
         DialogCustom.getInstance(activity!!).showDialogGeneric(
             "Código não cadastrado",
@@ -124,7 +122,7 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
             "SIM",
             "NÃO",
             ::actionDialog,
-            ACTION_SHOW_REGISTER_PRODUCT_SCREEM_SHOW,
+            ACTION_SHOW_REGISTER_PRODUCT_SCREEN_SHOW,
             START_CAMERA
         )
     }
@@ -142,7 +140,6 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
             "SIM",
             "NÃO",
             ::addProductInCar,
-            ::startReaderQrCode,
             supermarketProductJoin
         )
     }
@@ -159,34 +156,30 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
     }
 
     private fun showRegisterProductScreen() {
-        val action =
-            ReadQrCodeFragmentDirections.actionReadQrCodeFragmentToRegisterProductFragment()
-        action.supermarketId = this.supermarketId
-        Navigation.findNavController(this.requireView()).navigate(action)
+        val action = ReadQrCodeFragmentDirections.actionReadQrCodeFragmentToRegisterProductFragment(RegisterProductParam(supermarketId, codeRead!! ))
+         Navigation.findNavController(this.requireView()).navigate(action)
     }
 
-    private fun saveProductInSupermarket(supermarketProductJoin: SupermarketProductJoin): Boolean {
+    private fun saveProductInSupermarket(supermarketProductJoin: SupermarketProductJoin) {
         AppDatabase(activity!!).supermarketProductJoinDao().insert(supermarketProductJoin)
         Toast.makeText(
             activity,
             "Produto adicionado ao supermercado com sucesso!",
             Toast.LENGTH_SHORT
         ).show()
-        return true
+
     }
 
 
-    private fun actionDialog(code: Int): Boolean {
+    private fun actionDialog(code: Int) {
         when (code) {
-            ACTION_SHOW_REGISTER_PRODUCT_SCREEM_SHOW -> showRegisterProductScreen()
+            ACTION_SHOW_REGISTER_PRODUCT_SCREEN_SHOW -> showRegisterProductScreen()
             START_CAMERA -> qrCodeScanner.startCamera()
             else -> {
                 Toast.makeText(activity, "Não existe operação para esse item", Toast.LENGTH_SHORT)
                     .show()
             }
         }
-
-        return true
     }
 
 
