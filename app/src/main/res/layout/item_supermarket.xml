@@ -9,8 +9,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="2dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="2dp"
         android:minHeight="80dp"
         app:cardBackgroundColor="@color/whiteBodyColor"
         app:cardElevation="2dp"
@@ -18,7 +18,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:layout_marginLeft="35dp"
+        android:layout_marginStart="35dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -30,14 +30,14 @@
             android:textColor="@color/primaryTextColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:text="@string/supermercados"/>
 
         <TextView
             android:id="@+id/txtDescriptionItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:text="@string/description"/>
 
     </LinearLayout>

@@ -18,8 +18,10 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcListProduct"
+            tools:listitem="@layout/item_product"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            />
 
         <LinearLayout
             android:gravity="end"
