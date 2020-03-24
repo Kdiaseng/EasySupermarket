@@ -1,16 +1,13 @@
 package com.navigation.eazymarket.utils
 
 import android.content.Context
-import android.text.Editable
-import android.text.InputType
-import android.util.Log
 import android.view.LayoutInflater
-import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.navigation.eazymarket.R
 import com.navigation.eazymarket.domain.SupermarketProductJoin
 import kotlinx.android.synthetic.main.dialog_with_input.view.*
 import kotlinx.android.synthetic.main.dialog_with_input_and_swtch.view.*
+import kotlin.reflect.KFunction0
 
 class DialogCustom(val context: Context) {
 
@@ -51,10 +48,9 @@ class DialogCustom(val context: Context) {
         namePositiveButton: String,
         nameNegativeButton: String,
         function: (value: String, supermarketProductJoin: SupermarketProductJoin) -> Boolean,
+        supermarketProductJoin1: KFunction0<Unit>,
         supermarketProductJoin: SupermarketProductJoin
     ) {
-
-
         val builder = AlertDialog.Builder(context)
         val view = inflater.inflate(R.layout.dialog_with_input, null)
         view.textview_name_product_diolog.text = message
@@ -84,6 +80,7 @@ class DialogCustom(val context: Context) {
         namePositiveButton: String,
         nameNegativeButton: String,
         saveInSupermarket: (SupermarketProductJoin) -> Boolean,
+        actionNegative : () -> Unit,
         supermarketProductJoin: SupermarketProductJoin
     ) {
 
@@ -103,17 +100,16 @@ class DialogCustom(val context: Context) {
             if (view.switch_add_car_dialog_input_switch.isChecked)
                 supermarketProductJoin.quantity = 1
 
-            supermarketProductJoin.valueProdut = if (view.textInputValueDialogInputSwitch.text.toString()
-                    .isEmpty()
-            ) 0.0 else view.textInputValueDialogInputSwitch.text.toString().toDouble()
-
-            Log.e("MERDA", "SIM")
-          //  saveInSupermarket(supermarketProductJoin)
+            supermarketProductJoin.valueProdut =
+                if (view.textInputValueDialogInputSwitch.text.toString()
+                        .isEmpty()
+                ) 0.0 else view.textInputValueDialogInputSwitch.text.toString().toDouble()
+                 saveInSupermarket(supermarketProductJoin)
         }
 
         builder.setNegativeButton(nameNegativeButton) { dialogInterface, _ ->
             dialogInterface.cancel()
-            Log.e("MERDA", "CANCELAR")
+            actionNegative()
         }
 
         val dialog: AlertDialog = builder.create()

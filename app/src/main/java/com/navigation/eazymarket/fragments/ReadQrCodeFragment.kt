@@ -2,7 +2,6 @@ package com.navigation.eazymarket.fragments
 
 import android.Manifest
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -81,22 +80,14 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
             txt_result.text = rawResult.text
             val product = getProductByCode("123")
             if (product != null) {
-                val supermarketProductJoin = getProductInCurrentSupermarket(product.id, supermarketId)
+                val supermarketProductJoin =
+                    getProductInCurrentSupermarket(product.id, supermarketId)
                 if (supermarketProductJoin != null) {
                     checkAndConfirmProductValue(product, supermarketProductJoin)
+                    openCamera()
                 } else {
-
-                    DialogCustom.getInstance(activity!!).showDialogWithInputAndSwith(
-                        requireActivity().layoutInflater,
-                        "Adicionar produto no supermercado?",
-                        product.name,
-                        0.0,
-                        "SIM",
-                        "NÃO",
-                        ::saveProductInSupermarket,
-                        SupermarketProductJoin(supermarketId,product.id,0.0)
-                    )
-                    Toast.makeText(activity,"Item adicionado com sucesso!",Toast.LENGTH_SHORT).show()
+                    confirmationAddProductInSupermarket(product)
+                    openCamera()
                 }
             } else {
                 questionRegisterCode()
@@ -104,6 +95,28 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
         }
     }
 
+    fun openCamera(){
+        qrCodeScanner.startCamera()
+        qrCodeScanner.setResultHandler(this)
+    }
+
+    private fun confirmationAddProductInSupermarket(product: Product) {
+        DialogCustom.getInstance(activity!!).showDialogWithInputAndSwith(
+            requireActivity().layoutInflater,
+            "Adicionar produto no supermercado?",
+            product.name,
+            0.0,
+            "SIM",
+            "NÃO",
+            ::saveProductInSupermarket,
+            ::startReaderQrCode,
+            SupermarketProductJoin(supermarketId, product.id, 0.0)
+        )
+    }
+
+    private fun startReaderQrCode(){
+        qrCodeScanner.startCamera()
+    }
     private fun questionRegisterCode() {
         DialogCustom.getInstance(activity!!).showDialogGeneric(
             "Código não cadastrado",
@@ -129,15 +142,19 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
             "SIM",
             "NÃO",
             ::addProductInCar,
+            ::startReaderQrCode,
             supermarketProductJoin
         )
     }
 
-    private fun addProductInCar(value: String, supermarketProductJoin: SupermarketProductJoin): Boolean{
+    private fun addProductInCar(
+        value: String,
+        supermarketProductJoin: SupermarketProductJoin
+    ): Boolean {
         supermarketProductJoin.valueProdut = value.toDouble()
         supermarketProductJoin.quantity = 1
         AppDatabase(activity!!).supermarketProductJoinDao().update(supermarketProductJoin)
-        Toast.makeText(activity,"Item adicionado com sucesso!",Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, "Item adicionado com sucesso!", Toast.LENGTH_SHORT).show()
         return true
     }
 
@@ -148,10 +165,15 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
         Navigation.findNavController(this.requireView()).navigate(action)
     }
 
-    private fun saveProductInSupermarket(supermarketProductJoin: SupermarketProductJoin): Boolean{
-         AppDatabase(activity!!).supermarketProductJoinDao().insert(supermarketProductJoin)
+    private fun saveProductInSupermarket(supermarketProductJoin: SupermarketProductJoin): Boolean {
+        AppDatabase(activity!!).supermarketProductJoinDao().insert(supermarketProductJoin)
+        Toast.makeText(
+            activity,
+            "Produto adicionado ao supermercado com sucesso!",
+            Toast.LENGTH_SHORT
+        ).show()
         return true
-     }
+    }
 
 
     private fun actionDialog(code: Int): Boolean {
@@ -172,7 +194,10 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
         return AppDatabase(activity!!).productDao().getProductForCode(code)
     }
 
-    private fun getProductInCurrentSupermarket(IdProduct: Long, IdSupermarket: Long): SupermarketProductJoin? {
+    private fun getProductInCurrentSupermarket(
+        IdProduct: Long,
+        IdSupermarket: Long
+    ): SupermarketProductJoin? {
         return AppDatabase(activity!!).supermarketProductJoinDao()
             .verifyProductInSupermarket(IdSupermarket, IdProduct)
     }
@@ -180,18 +205,18 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
 
     override fun onResume() {
         super.onResume()
-        qrCodeScanner.startCamera()
-    }
+        if (qrCodeScanner == null) {
+            qrCodeScanner.startCamera()
+            qrCodeScanner.setResultHandler(this)
+        }
 
-    override fun onStop() {
-        super.onStop()
-        qrCodeScanner.stopCamera()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        qrCodeScanner.stopCamera()
+        if (qrCodeScanner != null) {
+            qrCodeScanner.stopCamera()
+            qrCodeScanner.setResultHandler(this)
+        }
     }
-
-
 }
