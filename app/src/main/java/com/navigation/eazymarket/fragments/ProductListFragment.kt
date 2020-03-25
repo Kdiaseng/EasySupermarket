@@ -41,6 +41,7 @@ class ProductListFragment : Fragment(), ProductAdapter.OnProductListener {
                 idSupermarket?.let {
                     setUsingSupermarket(it, false)
                     finishCar(idSupermarket)
+                    loadProdutsDTO(rcListProduct)
                     Toast.makeText(activity, "Lista finalizada com sucesso", Toast.LENGTH_SHORT ).show()
                 }
             }?: kotlin.run {
@@ -98,6 +99,8 @@ class ProductListFragment : Fragment(), ProductAdapter.OnProductListener {
     private fun updateFullValue(){
         if (!listPrdduct.isNullOrEmpty()){
             txtView_full_value.text = calculateTotalInCar().toString()
+        }else{
+            txtView_full_value.text = "0.0"
         }
     }
 

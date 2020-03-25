@@ -106,13 +106,14 @@ class DialogCustom(val context: Context) {
         positiveButton.setOnClickListener {
             val value = view.textInputValueDialogInputSwitch.text.toString().trim()
             if (validateFieldEmpty(value)) {
+                dialog.dismiss()
                 if (view.switch_add_car_dialog_input_switch.isChecked){
                     supermarketProductJoin.quantity = 1
+                    setUsingSupermarket(supermarketProductJoin.supermarket, true)
                 }
                 supermarketProductJoin.valueProdut = value.toDouble()
                 saveInSupermarket(supermarketProductJoin)
-                setUsingSupermarket(supermarketProductJoin.supermarket, true)
-                dialog.dismiss()
+
             } else {
                 view.textInputValueDialogInputSwitch.error = "Campo vazio ou igual a 0"
                 view.textInputValueDialogInputSwitch.requestFocus()
