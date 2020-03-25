@@ -49,6 +49,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInputValueDialogInputSwitch"
                 android:layout_width="match_parent"
+                android:inputType="numberDecimal"
                 android:textColor="@color/primaryTextColor"
                 android:layout_height="wrap_content"/>
 

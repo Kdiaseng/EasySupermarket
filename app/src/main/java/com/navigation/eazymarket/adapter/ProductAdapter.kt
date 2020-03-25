@@ -28,9 +28,8 @@ class ProductAdapter(
 
 
             itemView.button_add_quantity.setOnClickListener {
-                if (productDTO.quantityProduct == 0){
+                if (productDTO.quantityProduct == 0) {
                     itemView.txtNameProduct.paintFlags = 0
-                  //  changeColorBackgroundView(itemView.cardview_main_product, R.color.whiteBodyColor)
                 }
                 action.onClickIncrementProduct(productDTO)
                 itemView.texView_quantity_product.text = productDTO.quantityProduct.toString()
@@ -40,19 +39,14 @@ class ProductAdapter(
             itemView.button_remove_quantity.setOnClickListener {
                 action.onClickDecrementProduct(productDTO)
                 itemView.texView_quantity_product.text = productDTO.quantityProduct.toString()
-                if (productDTO.quantityProduct <= 0.0){
-                    itemView.txtNameProduct.paintFlags = itemView.txtNameProduct.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                   // changeColorBackgroundView(itemView.cardview_main_product, R.color.grayColor)
+                if (productDTO.quantityProduct <= 0.0) {
+                    itemView.txtNameProduct.paintFlags =
+                        itemView.txtNameProduct.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 }
             }
         }
 
-        private fun changeColorBackgroundView(view: View, color: Int){
-            view.setBackgroundResource(color)
-        }
     }
-
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -67,7 +61,7 @@ class ProductAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val productDTO = ProductsDTO[position]
-        holder.bindView(productDTO,itemClickListener)
+        holder.bindView(productDTO, itemClickListener)
     }
 
     interface OnProductListener {

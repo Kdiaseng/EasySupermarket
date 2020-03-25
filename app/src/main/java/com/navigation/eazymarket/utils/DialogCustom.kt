@@ -7,7 +7,6 @@ import com.navigation.eazymarket.R
 import com.navigation.eazymarket.domain.SupermarketProductJoin
 import kotlinx.android.synthetic.main.dialog_with_input.view.*
 import kotlinx.android.synthetic.main.dialog_with_input_and_swtch.view.*
-import kotlin.reflect.KFunction0
 
 class DialogCustom(val context: Context) {
 
@@ -16,7 +15,6 @@ class DialogCustom(val context: Context) {
             return DialogCustom(context)
         }
     }
-
 
     fun showDialogGeneric(
         title: String,
@@ -57,17 +55,22 @@ class DialogCustom(val context: Context) {
         view.textInputValueDialog.setText(value.toString())
 
         builder.setView(view)
-        builder.setPositiveButton(namePositiveButton) { dialogInterface, _ ->
-            dialogInterface.dismiss()
-            function(view.textInputValueDialog.text.toString(), supermarketProductJoin)
-        }
-
-        builder.setNegativeButton(nameNegativeButton) { dialogInterface, _ ->
-            dialogInterface.cancel()
-        }
-
+        builder.setPositiveButton(namePositiveButton, null)
+        builder.setNegativeButton(nameNegativeButton, null)
         val dialog: AlertDialog = builder.create()
         dialog.show()
+
+        val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+        positiveButton.setOnClickListener {
+            val value = view.textInputValueDialog.text.toString().trim()
+            if (validateFieldEmpty(value)) {
+                dialog.dismiss()
+                function(view.textInputValueDialog.text.toString(), supermarketProductJoin)
+            } else {
+                view.textInputValueDialog.error = "Campo vazio ou igual a 0"
+                view.textInputValueDialog.requestFocus()
+            }
+        }
 
     }
 
@@ -93,26 +96,33 @@ class DialogCustom(val context: Context) {
                 if (isChecked) "Item adicionado" else "Item não adicionado"
         }
         builder.setView(view)
-        builder.setPositiveButton(namePositiveButton) { dialogInterface, _ ->
-            dialogInterface.dismiss()
-            if (view.switch_add_car_dialog_input_switch.isChecked)
-                supermarketProductJoin.quantity = 1
-
-            supermarketProductJoin.valueProdut =
-                if (view.textInputValueDialogInputSwitch.text.toString()
-                        .isEmpty()
-                ) 0.0 else view.textInputValueDialogInputSwitch.text.toString().toDouble()
-                 saveInSupermarket(supermarketProductJoin)
-        }
-
-        builder.setNegativeButton(nameNegativeButton) { dialogInterface, _ ->
-            dialogInterface.cancel()
-
-        }
-
+        builder.setPositiveButton(namePositiveButton, null)
+        builder.setNegativeButton(nameNegativeButton, null)
         val dialog: AlertDialog = builder.create()
         dialog.show()
 
+        val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+        positiveButton.setOnClickListener {
+            val value = view.textInputValueDialogInputSwitch.text.toString().trim()
+            if (validateFieldEmpty(value)) {
+                if (view.switch_add_car_dialog_input_switch.isChecked)
+                    supermarketProductJoin.quantity = 1
+                supermarketProductJoin.valueProdut = value.toDouble()
+                saveInSupermarket(supermarketProductJoin)
+            } else {
+                view.textInputValueDialogInputSwitch.error = "Campo vazio ou igual a 0"
+                view.textInputValueDialogInputSwitch.requestFocus()
+            }
+        }
+    }
+
+    private fun validateFieldEmpty(value: String): Boolean {
+        if (value.isNotEmpty()) {
+            if (value.toDouble() != 0.0) {
+                return true
+            }
+        }
+        return false
     }
 }
 
