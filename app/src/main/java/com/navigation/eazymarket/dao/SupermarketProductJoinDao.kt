@@ -7,6 +7,7 @@ import androidx.room.Update
 import com.navigation.eazymarket.domain.Product
 import com.navigation.eazymarket.domain.Supermarket
 import com.navigation.eazymarket.domain.SupermarketProductJoin
+import com.navigation.eazymarket.model.ProductDTO
 
 @Dao
 interface SupermarketProductJoinDao {
@@ -41,5 +42,12 @@ interface SupermarketProductJoinDao {
             "SELECT * FROM SUPERMARKETPRODUCTJOIN " +
             "WHERE SUPERMARKETPRODUCTJOIN.supermarket=:supermarketId AND SUPERMARKETPRODUCTJOIN.product=:productId " )
     fun verifyProductInSupermarket(supermarketId: Long, productId: Long): SupermarketProductJoin
+
+    @Query("SELECT PRODUCT.name, PRODUCT.description, SUPERMARKETPRODUCTJOIN.valueProdut, " +
+            "SUPERMARKETPRODUCTJOIN.quantity from PRODUCT JOIN SUPERMARKETPRODUCTJOIN ON " +
+            "PRODUCT.ID = SUPERMARKETPRODUCTJOIN.product " +
+            "WHERE SUPERMARKETPRODUCTJOIN.quantity > 0 ")
+    fun getAllProductDTO(): List<ProductDTO>
+
 
 }

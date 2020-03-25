@@ -80,7 +80,7 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
         rawResult?.let {
             txt_result.text = rawResult.text
             codeRead = rawResult.text.toString()
-            val product = getProductByCode("1234")
+            val product = getProductByCode(rawResult.text.toString())
             if (product != null) {
                 val supermarketProductJoin =
                     getProductInCurrentSupermarket(product.id, supermarketId)

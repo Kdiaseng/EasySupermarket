@@ -1,7 +1,5 @@
 package com.navigation.eazymarket.adapter
 
-
-
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +14,7 @@ import kotlinx.android.synthetic.main.item_supermarket.view.*
 class SupermarketAdapter (
     private val superMarkerts: List<Supermarket>,
     private val context: Context,
-    var itemClickListener: OnSupermarketListener)
+    private var itemClickListener: OnSupermarketListener)
     : Adapter<SupermarketAdapter.ViewHolder>() {
 
 

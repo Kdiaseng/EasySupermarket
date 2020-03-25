@@ -36,8 +36,7 @@ class SupermarketFragment : Fragment(),  SupermarketAdapter.OnSupermarketListene
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        //val recyclerViewMarket = rclistSuperMarket
-        loadSupermarketList(rclistSuperMarket)
+         loadSupermarketList(rclistSuperMarket)
 
     }
 
