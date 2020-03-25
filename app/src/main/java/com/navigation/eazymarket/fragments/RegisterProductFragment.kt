@@ -34,7 +34,6 @@ class RegisterProductFragment : Fragment() {
 
         arguments?.let {
             this.registerProductParam = RegisterProductFragmentArgs.fromBundle(it).registerProductParam
-
         }
 
         textInputCode.setText(registerProductParam!!.code)
@@ -60,11 +59,16 @@ class RegisterProductFragment : Fragment() {
         val supermarketProductJoin =
             SupermarketProductJoin(registerProductParam!!.supermarketId, idProduct, valueUnit, qtd)
         saveSupermarketProductJoin(supermarketProductJoin)
+        setUsingSupermarket(registerProductParam!!.supermarketId)
         Toast.makeText(activity,"Produto cadastrado com sucesso!!", Toast.LENGTH_SHORT).show()
     }
 
     private fun saveSupermarketProductJoin(supermarketProductJoin: SupermarketProductJoin) {
         AppDatabase(activity!!).supermarketProductJoinDao().insert(supermarketProductJoin)
+    }
+
+    private fun setUsingSupermarket(id: Long){
+         AppDatabase(activity!!).supermarketDao().setUsingSupermarket(id)
     }
 
 
