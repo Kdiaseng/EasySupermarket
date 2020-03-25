@@ -151,6 +151,7 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
         supermarketProductJoin.valueProdut = value.toDouble()
         supermarketProductJoin.quantity = 1
         AppDatabase(activity!!).supermarketProductJoinDao().update(supermarketProductJoin)
+        setUsingSupermarket(supermarketId, true)
         Toast.makeText(activity, "Item adicionado com sucesso!", Toast.LENGTH_SHORT).show()
         return true
     }
@@ -212,4 +213,9 @@ class ReadQrCodeFragment : Fragment(), ZXingScannerView.ResultHandler {
             qrCodeScanner.setResultHandler(this)
         }
     }
+
+    private fun setUsingSupermarket(id: Long, isUsed: Boolean){
+        AppDatabase(activity!!).supermarketDao().setUsingSupermarket(id, isUsed)
+    }
+
 }

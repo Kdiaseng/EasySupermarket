@@ -59,7 +59,8 @@ class RegisterProductFragment : Fragment() {
         val supermarketProductJoin =
             SupermarketProductJoin(registerProductParam!!.supermarketId, idProduct, valueUnit, qtd)
         saveSupermarketProductJoin(supermarketProductJoin)
-        setUsingSupermarket(registerProductParam!!.supermarketId)
+        if (isAddInCar)
+            setUsingSupermarket(registerProductParam!!.supermarketId, true)
         Toast.makeText(activity,"Produto cadastrado com sucesso!!", Toast.LENGTH_SHORT).show()
     }
 
@@ -67,8 +68,8 @@ class RegisterProductFragment : Fragment() {
         AppDatabase(activity!!).supermarketProductJoinDao().insert(supermarketProductJoin)
     }
 
-    private fun setUsingSupermarket(id: Long){
-         AppDatabase(activity!!).supermarketDao().setUsingSupermarket(id)
+    private fun setUsingSupermarket(id: Long, isUsed: Boolean){
+         AppDatabase(activity!!).supermarketDao().setUsingSupermarket(id, isUsed)
     }
 
 

@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.navigation.eazymarket.R
@@ -22,8 +23,6 @@ class SupermarketAdapter(
     var supermarketUsed = getSupermarketIsUsing(superMarkerts)
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-
 
         fun bindView(
             supermarket: Supermarket,
@@ -52,6 +51,8 @@ class SupermarketAdapter(
                 supermarketUsed?.let {
                     if (supermarket.id == supermarketUsed.id ){
                         action.onItemSupermarketClick(supermarket, position,view)
+                    }else{
+                        Toast.makeText(view.context, "Já existe uma lista em andamento!", Toast.LENGTH_SHORT).show()
                     }
                 } ?: kotlin.run {
                     action.onItemSupermarketClick(supermarket, position, view)
@@ -66,7 +67,6 @@ class SupermarketAdapter(
             }
         }
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_supermarket, parent, false)

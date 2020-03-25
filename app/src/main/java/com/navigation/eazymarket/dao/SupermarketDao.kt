@@ -18,8 +18,8 @@ interface SupermarketDao {
     fun delete(supermarket: Supermarket)
 
     @Query(
-        "UPDATE SUPERMARKET SET isUsing = 1 " +
+        "UPDATE SUPERMARKET SET isUsing =:isUsing " +
                 "WHERE SUPERMARKET.id =:id "
     )
-    fun setUsingSupermarket(id: Long)
+    fun setUsingSupermarket(id: Long, isUsing: Boolean)
 }

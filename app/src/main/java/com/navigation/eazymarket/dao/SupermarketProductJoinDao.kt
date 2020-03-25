@@ -50,5 +50,8 @@ interface SupermarketProductJoinDao {
             "WHERE SUPERMARKETPRODUCTJOIN.quantity > 0 ")
     fun getAllProductDTO(): List<ProductDTO>
 
+    @Query("UPDATE SUPERMARKETPRODUCTJOIN SET quantity = 0 WHERE supermarket=:idSupermarket ")
+    fun finishListCat(idSupermarket: Long)
+
 
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -20,7 +21,7 @@ import kotlinx.android.synthetic.main.item_product.*
  */
 class ProductListFragment : Fragment(), ProductAdapter.OnProductListener {
 
-    var listPrdduct: List<ProductDTO>? = null
+    private var listPrdduct: List<ProductDTO>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +34,23 @@ class ProductListFragment : Fragment(), ProductAdapter.OnProductListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         loadProdutsDTO(rcListProduct)
+
+        button_close_car.setOnClickListener {
+            listPrdduct?.let {
+               val idSupermarket =   getIdSupermarket(it)
+                idSupermarket?.let {
+                    setUsingSupermarket(it, false)
+                    finishCar(idSupermarket)
+                    Toast.makeText(activity, "Lista finalizada com sucesso", Toast.LENGTH_SHORT ).show()
+                }
+            }?: kotlin.run {
+                Toast.makeText(activity, "Adicione produtos no carrinho", Toast.LENGTH_SHORT ).show()
+            }
+        }
+    }
+
+    private fun finishCar(idSupermarket: Long) {
+        AppDatabase(activity!!).supermarketProductJoinDao().finishListCat(idSupermarket)
     }
 
     private fun loadProdutsDTO(rcListProduct: RecyclerView?) {
@@ -89,4 +107,13 @@ class ProductListFragment : Fragment(), ProductAdapter.OnProductListener {
         }
       return  total.reduce { sum, item -> sum +item }
     }
+
+    private  fun getIdSupermarket(list: List<ProductDTO>): Long? {
+        return list[0].supermarketId
+    }
+
+    private fun setUsingSupermarket(id: Long, isUsed: Boolean){
+        AppDatabase(activity!!).supermarketDao().setUsingSupermarket(id, isUsed)
+    }
+
 }

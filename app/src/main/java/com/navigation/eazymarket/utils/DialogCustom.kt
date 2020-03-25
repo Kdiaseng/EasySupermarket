@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import com.navigation.eazymarket.R
+import com.navigation.eazymarket.database.AppDatabase
 import com.navigation.eazymarket.domain.SupermarketProductJoin
 import kotlinx.android.synthetic.main.dialog_with_input.view.*
 import kotlinx.android.synthetic.main.dialog_with_input_and_swtch.view.*
@@ -105,10 +106,13 @@ class DialogCustom(val context: Context) {
         positiveButton.setOnClickListener {
             val value = view.textInputValueDialogInputSwitch.text.toString().trim()
             if (validateFieldEmpty(value)) {
-                if (view.switch_add_car_dialog_input_switch.isChecked)
+                if (view.switch_add_car_dialog_input_switch.isChecked){
                     supermarketProductJoin.quantity = 1
+                }
                 supermarketProductJoin.valueProdut = value.toDouble()
                 saveInSupermarket(supermarketProductJoin)
+                setUsingSupermarket(supermarketProductJoin.supermarket, true)
+                dialog.dismiss()
             } else {
                 view.textInputValueDialogInputSwitch.error = "Campo vazio ou igual a 0"
                 view.textInputValueDialogInputSwitch.requestFocus()
@@ -123,6 +127,10 @@ class DialogCustom(val context: Context) {
             }
         }
         return false
+    }
+
+    private fun setUsingSupermarket(id: Long, isUsed: Boolean){
+        AppDatabase(context).supermarketDao().setUsingSupermarket(id, isUsed)
     }
 }
 
