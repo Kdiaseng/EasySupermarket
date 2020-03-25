@@ -43,7 +43,8 @@ interface SupermarketProductJoinDao {
             "WHERE SUPERMARKETPRODUCTJOIN.supermarket=:supermarketId AND SUPERMARKETPRODUCTJOIN.product=:productId " )
     fun verifyProductInSupermarket(supermarketId: Long, productId: Long): SupermarketProductJoin
 
-    @Query("SELECT PRODUCT.name, PRODUCT.description, SUPERMARKETPRODUCTJOIN.valueProdut, " +
+    @Query("SELECT PRODUCT.name, SUPERMARKETPRODUCTJOIN.supermarket, SUPERMARKETPRODUCTJOIN.product, " +
+            "PRODUCT.description, SUPERMARKETPRODUCTJOIN.valueProdut, " +
             "SUPERMARKETPRODUCTJOIN.quantity from PRODUCT JOIN SUPERMARKETPRODUCTJOIN ON " +
             "PRODUCT.ID = SUPERMARKETPRODUCTJOIN.product " +
             "WHERE SUPERMARKETPRODUCTJOIN.quantity > 0 ")

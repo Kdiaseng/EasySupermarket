@@ -83,6 +83,4 @@ class SupermarketFragment : Fragment(),  SupermarketAdapter.OnSupermarketListene
 
     }
 
-
-
 }

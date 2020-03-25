@@ -7,6 +7,12 @@ data class ProductDTO(
     @ColumnInfo(name = "name")
     var nameProduct: String,
 
+    @ColumnInfo(name = "product")
+    var productId: Long,
+
+    @ColumnInfo(name = "supermarket")
+    var supermarketId: Long,
+
     @ColumnInfo(name = "description")
     var descriptionProduct: String,
 
