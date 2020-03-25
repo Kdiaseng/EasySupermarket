@@ -1,6 +1,7 @@
 package com.navigation.eazymarket.adapter
 
 import android.content.Context
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,17 +26,34 @@ class ProductAdapter(
             itemView.textView_value_product.text = productDTO.valueUnitProduct.toString()
             itemView.texView_quantity_product.text = productDTO.quantityProduct.toString()
 
+
             itemView.button_add_quantity.setOnClickListener {
+                if (productDTO.quantityProduct == 0){
+                    itemView.txtNameProduct.paintFlags = 0
+                  //  changeColorBackgroundView(itemView.cardview_main_product, R.color.whiteBodyColor)
+                }
                 action.onClickIncrementProduct(productDTO)
                 itemView.texView_quantity_product.text = productDTO.quantityProduct.toString()
+
             }
 
             itemView.button_remove_quantity.setOnClickListener {
                 action.onClickDecrementProduct(productDTO)
                 itemView.texView_quantity_product.text = productDTO.quantityProduct.toString()
+                if (productDTO.quantityProduct <= 0.0){
+                    itemView.txtNameProduct.paintFlags = itemView.txtNameProduct.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                   // changeColorBackgroundView(itemView.cardview_main_product, R.color.grayColor)
+                }
             }
         }
+
+        private fun changeColorBackgroundView(view: View, color: Int){
+            view.setBackgroundResource(color)
+        }
     }
+
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_product, parent, false)

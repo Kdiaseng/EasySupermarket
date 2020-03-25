@@ -20,6 +20,6 @@
     <string name="REMOVE_ITEM_SUCCESS">Item removido com sucesso!</string>
     <string name="UPDATE">ATUALIZAR</string>
     <string name="SAVE">CADASTRAR</string>
-    <string name="finalizar_carrinho">Finalizar carrinho</string>
+    <string name="finalizar_carrinho">Finalizar</string>
     <string name="real">R$</string>
 </resources>
