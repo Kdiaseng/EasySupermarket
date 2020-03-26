@@ -8,7 +8,7 @@ interface SupermarketDao {
     @Query("SELECT * FROM Supermarket")
     fun all(): List<Supermarket>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun add(vararg supermarket: Supermarket)
 
     @Update

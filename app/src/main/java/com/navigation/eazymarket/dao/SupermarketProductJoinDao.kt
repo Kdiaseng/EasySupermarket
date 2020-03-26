@@ -1,9 +1,6 @@
 package com.navigation.eazymarket.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.navigation.eazymarket.domain.Product
 import com.navigation.eazymarket.domain.Supermarket
 import com.navigation.eazymarket.domain.SupermarketProductJoin
@@ -11,7 +8,7 @@ import com.navigation.eazymarket.model.ProductDTO
 
 @Dao
 interface SupermarketProductJoinDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(supermarketProductJoin: SupermarketProductJoin)
 
     @Update
@@ -52,6 +49,9 @@ interface SupermarketProductJoinDao {
 
     @Query("UPDATE SUPERMARKETPRODUCTJOIN SET quantity = 0 WHERE supermarket=:idSupermarket ")
     fun finishListCat(idSupermarket: Long)
+
+    @Query("DELETE FROM SUPERMARKETPRODUCTJOIN WHERE supermarket=:id")
+    fun deleteAllRegisterByIdSupermarlet(id: Long)
 
 
 }

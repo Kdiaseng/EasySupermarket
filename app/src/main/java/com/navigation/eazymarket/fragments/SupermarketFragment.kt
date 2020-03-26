@@ -67,16 +67,15 @@ class SupermarketFragment : Fragment(),  SupermarketAdapter.OnSupermarketListene
         val builder = AlertDialog.Builder(activity!!)
         builder.setTitle("Alerta")
         builder.setMessage("Deseja realmente excluir o item?")
+        builder.setNegativeButton("NÃO", null)
 
-        builder.setPositiveButton("SIM"){dialog, which ->
+        builder.setPositiveButton("SIM"){ _, _ ->
+            AppDatabase(activity!!).supermarketProductJoinDao().deleteAllRegisterByIdSupermarlet(supermarket.id)
             AppDatabase(activity!!).supermarketDao().delete(supermarket)
             Toast.makeText(context, getString(R.string.REMOVE_ITEM_SUCCESS),Toast.LENGTH_SHORT).show()
             loadSupermarketList(rclistSuperMarket)
         }
 
-        builder.setNegativeButton("NÃO"){dialog,which ->
-
-        }
         val dialog: AlertDialog = builder.create()
         dialog.show()
 

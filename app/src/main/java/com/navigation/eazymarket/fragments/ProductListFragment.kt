@@ -14,14 +14,13 @@ import com.navigation.eazymarket.database.AppDatabase
 import com.navigation.eazymarket.domain.SupermarketProductJoin
 import com.navigation.eazymarket.model.ProductDTO
 import kotlinx.android.synthetic.main.fragment_product_list.*
-import kotlinx.android.synthetic.main.item_product.*
 
 /**
  * A simple [Fragment] subclass.
  */
 class ProductListFragment : Fragment(), ProductAdapter.OnProductListener {
 
-    private var listPrdduct: List<ProductDTO>? = null
+    private var productList: List<ProductDTO>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,19 +32,22 @@ class ProductListFragment : Fragment(), ProductAdapter.OnProductListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        loadProdutsDTO(rcListProduct)
+        setListProductDTO()
+        loadProductsDTO(rcListProduct)
 
         button_close_car.setOnClickListener {
-            listPrdduct?.let {
-               val idSupermarket =   getIdSupermarket(it)
+            productList?.let {
+                val idSupermarket = getIdSupermarket(it)
                 idSupermarket?.let {
                     setUsingSupermarket(it, false)
                     finishCar(idSupermarket)
-                    loadProdutsDTO(rcListProduct)
-                    Toast.makeText(activity, "Lista finalizada com sucesso", Toast.LENGTH_SHORT ).show()
+                    setListProductDTO()
+                    loadProductsDTO(rcListProduct)
+                    Toast.makeText(activity, "Lista finalizada com sucesso", Toast.LENGTH_SHORT)
+                        .show()
                 }
-            }?: kotlin.run {
-                Toast.makeText(activity, "Adicione produtos no carrinho", Toast.LENGTH_SHORT ).show()
+            } ?: kotlin.run {
+                Toast.makeText(activity, "Adicione produtos no carrinho", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -54,16 +56,17 @@ class ProductListFragment : Fragment(), ProductAdapter.OnProductListener {
         AppDatabase(activity!!).supermarketProductJoinDao().finishListCat(idSupermarket)
     }
 
-    private fun loadProdutsDTO(rcListProduct: RecyclerView?) {
-        rcListProduct!!.adapter = ProductAdapter(getListProductDTO(), this.requireContext(), this)
-        val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
-        rcListProduct.layoutManager = layoutManager
-        updateFullValue()
+    private fun loadProductsDTO(rcListProduct: RecyclerView?) {
+        productList?.let {
+            rcListProduct!!.adapter = ProductAdapter(this.productList!!, this.requireContext(), this)
+            val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
+            rcListProduct.layoutManager = layoutManager
+            updateFullValue()
+        }
     }
 
-    private fun getListProductDTO(): List<ProductDTO> {
-        this.listPrdduct = AppDatabase(activity!!).supermarketProductJoinDao().getAllProductDTO()
-        return  this.listPrdduct!!
+    private fun setListProductDTO() {
+        this.productList = AppDatabase(activity!!).supermarketProductJoinDao().getAllProductDTO()
     }
 
     override fun onClickIncrementProduct(productDTO: ProductDTO) {
@@ -96,26 +99,26 @@ class ProductListFragment : Fragment(), ProductAdapter.OnProductListener {
             )
     }
 
-    private fun updateFullValue(){
-        if (!listPrdduct.isNullOrEmpty()){
+    private fun updateFullValue() {
+        if (!productList.isNullOrEmpty()) {
             txtView_full_value.text = calculateTotalInCar().toString()
-        }else{
+        } else {
             txtView_full_value.text = "0.0"
         }
     }
 
     private fun calculateTotalInCar(): Double {
-        val total = this.listPrdduct!!.map { item ->
+        val total = this.productList!!.map { item ->
             item.quantityProduct * item.valueUnitProduct
         }
-      return  total.reduce { sum, item -> sum +item }
+        return total.reduce { sum, item -> sum + item }
     }
 
-    private  fun getIdSupermarket(list: List<ProductDTO>): Long? {
+    private fun getIdSupermarket(list: List<ProductDTO>): Long? {
         return list[0].supermarketId
     }
 
-    private fun setUsingSupermarket(id: Long, isUsed: Boolean){
+    private fun setUsingSupermarket(id: Long, isUsed: Boolean) {
         AppDatabase(activity!!).supermarketDao().setUsingSupermarket(id, isUsed)
     }
 

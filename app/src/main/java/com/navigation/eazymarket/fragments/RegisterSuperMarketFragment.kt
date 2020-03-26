@@ -76,7 +76,6 @@ class RegisterSuperMarketFragment : Fragment() {
             } else {
                 supermarketToSave.id = this.supermarket!!.id
                 updateSupermarket(supermarketToSave)
-
             }
         }
     }

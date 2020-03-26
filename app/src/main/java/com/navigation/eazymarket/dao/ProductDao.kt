@@ -12,7 +12,7 @@ interface ProductDao {
             "WHERE PRODUCT.CODE =:codeProduct")
     fun getProductForCode(codeProduct: String):Product?
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun add(product: Product): Long
 
     @Update
