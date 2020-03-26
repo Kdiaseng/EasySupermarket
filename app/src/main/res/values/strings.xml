@@ -22,4 +22,5 @@
     <string name="SAVE">CADASTRAR</string>
     <string name="finalizar_carrinho">Finalizar</string>
     <string name="real">R$</string>
+    <string name="VALUE_UNIT_REQUIRED">Valor unitário requerido</string>
 </resources>

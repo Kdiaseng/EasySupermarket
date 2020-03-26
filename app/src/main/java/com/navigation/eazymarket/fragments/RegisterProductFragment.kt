@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.navigation.eazymarket.R
 import com.navigation.eazymarket.database.AppDatabase
 import com.navigation.eazymarket.domain.Product
@@ -43,6 +44,9 @@ class RegisterProductFragment : Fragment() {
         }
 
         btnCreateProduct.setOnClickListener {
+
+            if (validateFieldEmpty()) return@setOnClickListener
+
             val product = Product(
                 textInputCode.text.toString(),
                 textInputNameProduct.text.toString(),
@@ -51,6 +55,27 @@ class RegisterProductFragment : Fragment() {
             saveProduct(product, textInputValueUnit.text.toString().toDouble())
         }
 
+    }
+
+    private fun validateFieldEmpty(): Boolean {
+        if (textInputNameProduct.text.toString().isEmpty()) {
+            textInputNameProduct.error = getString(R.string.NAME_REQUIRED)
+            textInputNameProduct.requestFocus()
+            return true
+        }
+
+        if (textInputDescriptionProduct.text.toString().isEmpty()) {
+            textInputDescriptionProduct.error = getString(R.string.DESCRIPTION_REQUIRED)
+            textInputDescriptionProduct.requestFocus()
+            return true
+        }
+
+        if (textInputValueUnit.text.toString().isEmpty()) {
+            textInputValueUnit.error = getString(R.string.VALUE_UNIT_REQUIRED)
+            textInputValueUnit.requestFocus()
+            return true
+        }
+        return false
     }
 
     private fun saveProduct(product: Product, valueUnit: Double) {
@@ -62,6 +87,9 @@ class RegisterProductFragment : Fragment() {
         if (isAddInCar)
             setUsingSupermarket(registerProductParam!!.supermarketId, true)
         Toast.makeText(activity,"Produto cadastrado com sucesso!!", Toast.LENGTH_SHORT).show()
+
+        val action = RegisterProductFragmentDirections.actionRegisterProductFragmentToReadQrCodeFragment(this.registerProductParam!!.supermarketId)
+        Navigation.findNavController(this.view!!).navigate(action)
     }
 
     private fun saveSupermarketProductJoin(supermarketProductJoin: SupermarketProductJoin) {

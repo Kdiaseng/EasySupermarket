@@ -37,7 +37,6 @@ class SupermarketFragment : Fragment(),  SupermarketAdapter.OnSupermarketListene
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
          loadSupermarketList(rclistSuperMarket)
-
     }
 
     private fun loadSupermarketList(recyclerViewMarket: RecyclerView) {
@@ -48,7 +47,15 @@ class SupermarketFragment : Fragment(),  SupermarketAdapter.OnSupermarketListene
     }
 
     private fun genereteListSuperMarket(): List<Supermarket> {
-        return (AppDatabase(activity!!).supermarketDao().all())
+        val list = (AppDatabase(activity!!).supermarketDao().all())
+        val listMutable = list.toMutableList()
+        val itemUsed = listMutable.find { it.isUsing }
+        if (itemUsed != null){
+            val index = list.indexOf(itemUsed)
+            listMutable.removeAt(index)
+            listMutable.add(0,itemUsed)
+        }
+        return listMutable
     }
 
     override fun onItemSupermarketClick(supermarket: Supermarket, position: Int, view: View) {
@@ -75,7 +82,6 @@ class SupermarketFragment : Fragment(),  SupermarketAdapter.OnSupermarketListene
             Toast.makeText(context, getString(R.string.REMOVE_ITEM_SUCCESS),Toast.LENGTH_SHORT).show()
             loadSupermarketList(rclistSuperMarket)
         }
-
         val dialog: AlertDialog = builder.create()
         dialog.show()
 
